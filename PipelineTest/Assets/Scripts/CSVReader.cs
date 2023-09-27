@@ -34,7 +34,7 @@ public class CSVReader
         //get those id numbers
         string[] header = Regex.Split(lineList[0], SPLIT_RE);
         
-        //loop through the columns, starting with 1 because we have the header as the first value and we don't want that
+        //go through all the lines one by one
         for (int i = 1; i < lineList.Length; i++)
         {
             //get each line's values
@@ -46,26 +46,26 @@ public class CSVReader
                 continue;
             }
 
-            //define that each line content has two strings
+            //go through each line
             Dictionary<string, object> entry = new Dictionary<string, object>();
             for (int a = 0; a < header.Length && a < lineValue.Length; a++)
             {
                 string value = lineValue[a];
                 //trim out the \\
                 value = value.TrimStart(TRIM_CHARS).TrimEnd(TRIM_CHARS).Replace("\\", "");
-                object secondValue = value;
+                object finalValue = value;
                 int n;
                 float f;
                 if (int.TryParse(value, out n))
                 {
-                    secondValue = n;
+                    finalValue = n;
                 }
 
                 if (float.TryParse(value, out f))
                 {
-                    secondValue = f;
+                    finalValue = f;
                 }
-                entry[header[a]] = secondValue;
+                entry[header[a]] = finalValue;
             }
             contentList.Add(entry);
 
